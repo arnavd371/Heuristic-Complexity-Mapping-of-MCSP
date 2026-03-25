@@ -22,7 +22,7 @@ To exercise individual components:
 ```bash
 python -m pytest                 # run the test suite
 python -c "from mcsp.core.truth_table import TruthTable; print(TruthTable.parity(3))"
-python -c "from mcsp.solvers.sat_solver import MCSPSatSolver; print(MCSPSatSolver(2,5).find_minimum_circuit(TruthTable(2,[0,1,1,0])))"
+python -c "from mcsp.solvers.sat_solver import MCSPSatSolver; from mcsp.core.truth_table import TruthTable; print(MCSPSatSolver(2,5).find_minimum_circuit(TruthTable(2,[0,1,1,0])))"
 ```
 
 ## GitHub Pages

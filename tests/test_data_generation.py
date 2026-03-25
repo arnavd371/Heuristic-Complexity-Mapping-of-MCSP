@@ -15,8 +15,13 @@ class TestDatasetGenerator(unittest.TestCase):
         self.assertEqual(len(samples_a), len(samples_b))
         self.assertEqual(samples_a, samples_b)
         for sample in samples_a:
-            self.assertEqual(len(sample['truth_table']), 2 ** 3)
+            tt = sample['truth_table']
+            self.assertEqual(len(tt), 2 ** 3)
+            # truth table entries are binary
+            self.assertTrue(all(bit in (0, 1) for bit in tt))
+            # complexity is non-negative integer
             self.assertIsInstance(sample['complexity'], int)
+            self.assertGreaterEqual(sample['complexity'], 0)
 
 
 if __name__ == '__main__':

@@ -9,9 +9,11 @@ import numpy as np
 class ComplexityStats:
     """Statistical analysis of circuit complexity data."""
 
-    def __init__(self, complexities: List[int], function_names: Optional[List[str]] = None):
+    def __init__(self, complexities: List[int], function_names: Optional[List[str]] = None,
+                 n: Optional[int] = None):
         self.complexities = list(complexities)
         self.function_names = function_names
+        self.n = n  # number of Boolean variables (optional, used for hardness indexing)
 
     def summary(self) -> Dict[str, Any]:
         if not self.complexities:
@@ -50,7 +52,8 @@ class ComplexityStats:
             mean = summary.get('mean', 0)
             std = summary.get('std', 1)
             z_score = (complexity - mean) / (std + 1e-10)
-            hardness = compute_hardness_index(complexity, int(math.log2(max(1, len(self.complexities)))))
+            n_val = self.n if self.n is not None else max(1, int(math.log2(max(2, summary.get('max', 2)))))
+            hardness = compute_hardness_index(complexity, n_val)
             result[name] = {
                 'complexity': complexity,
                 'z_score': z_score,
@@ -80,7 +83,7 @@ def analyze_complexity_landscape(n: int, num_random: int = 1000) -> ComplexitySt
             circuit, _ = solver.solve(tt)
             complexities.append(circuit.size)
 
-    return ComplexityStats(complexities)
+    return ComplexityStats(complexities, n=n)
 
 
 def compute_hardness_index(complexity: int, n: int) -> float:

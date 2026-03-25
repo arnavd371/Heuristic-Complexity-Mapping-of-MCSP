@@ -155,7 +155,7 @@ class TruthTable:
         tt = cls(n)
         size = 1 << n
         num_words = max(1, math.ceil(size / 64))
-        tt._words = rng.integers(0, 2**63, size=num_words, dtype=np.int64).view(np.uint64)
+        tt._words = rng.integers(0, np.iinfo(np.uint64).max, size=num_words, dtype=np.uint64)
         # Mask the last word
         remainder = size % 64
         if remainder != 0:

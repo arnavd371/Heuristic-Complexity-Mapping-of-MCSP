@@ -109,7 +109,7 @@ class TestSATSolver(unittest.TestCase):
         self.assertIsNotNone(circuit)
         self.assertTrue(circuit.is_correct(tt))
 
-    def test_size_1_functions(self):
+    def test_and_size_1(self):
         from mcsp.solvers.sat_solver import MCSPSatSolver
         n = 2
         # AND can be done in 1 gate

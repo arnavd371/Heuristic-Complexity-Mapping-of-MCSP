@@ -67,8 +67,8 @@ class Individual:
             # Fix downstream references
             for j in range(idx, len(new_genes)):
                 op2, l2, r2 = new_genes[j]
-                l2 = min(l2, self.n + j - 1) if self.n + j - 1 >= 0 else 0
-                r2 = min(r2, self.n + j - 1) if self.n + j - 1 >= 0 else 0
+                l2 = min(l2, self.n + j - 1)
+                r2 = min(r2, self.n + j - 1)
                 new_genes[j] = (op2, max(0, l2), max(0, r2))
 
         child = Individual(self.n, new_genes)

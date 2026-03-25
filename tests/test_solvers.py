@@ -156,6 +156,7 @@ class TestGeneticSolver(unittest.TestCase):
         self.assertIn('generations', stats)
         self.assertIn('best_fitness', stats)
         self.assertIn('circuit_size', stats)
+        self.assertEqual(stats['circuit_size'], circuit.size)
 
 
 if __name__ == '__main__':

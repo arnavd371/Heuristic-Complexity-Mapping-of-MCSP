@@ -13,6 +13,8 @@ class TruthTable:
     For n variables, there are 2^n entries.
     """
 
+    _ONE = np.uint64(1)  # cached constant to avoid repeated conversions
+
     def __init__(self, n: int, table=None):
         self.n = n
         self.size = 1 << n  # 2^n
@@ -28,15 +30,15 @@ class TruthTable:
     def get_bit(self, idx: int) -> int:
         word = idx >> 6  # idx // 64
         bit = idx & 63   # idx % 64
-        return int((self._words[word] >> np.uint64(bit)) & np.uint64(1))
+        return int((self._words[word] >> np.uint64(bit)) & self._ONE)
 
     def set_bit(self, idx: int, val: int):
         word = idx >> 6
         bit = idx & 63
         if val:
-            self._words[word] |= np.uint64(1 << bit)
+            self._words[word] |= self._ONE << np.uint64(bit)
         else:
-            self._words[word] &= ~np.uint64(1 << bit)
+            self._words[word] &= ~(self._ONE << np.uint64(bit))
 
     def to_array(self) -> np.ndarray:
         """Return a numpy array of 0/1 values of length 2^n."""

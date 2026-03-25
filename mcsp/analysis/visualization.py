@@ -87,8 +87,9 @@ def plot_truth_table(tt, title: Optional[str] = None, save_path: Optional[str] =
     # Add text
     for i in range(size):
         for j in range(n + 1):
-            ax.text(j, i, str(data[i, j]), ha='center', va='center',
-                    color='white' if data[i, j] else 'black', fontsize=8)
+            val = int(data[i, j])
+            ax.text(j, i, str(val), ha='center', va='center',
+                    color='white' if val else 'black', fontsize=8)
 
     if save_path:
         plt.savefig(save_path, bbox_inches='tight')

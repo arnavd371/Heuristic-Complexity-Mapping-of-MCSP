@@ -83,7 +83,7 @@ class DatasetGenerator:
 
         # Random samples
         for i in range(num_samples - len(specials)):
-            s = rng.randint(0, 2**31 - 1)
+            s = int(rng.randint(0, np.iinfo(np.int32).max))
             sample = self.generate_sample(seed=s)
             samples.append(sample)
 

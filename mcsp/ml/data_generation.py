@@ -5,6 +5,8 @@ import json
 import random
 from typing import List, Dict, Any, Optional
 
+import numpy as np
+
 
 class DatasetGenerator:
     """Generates labeled datasets of (truth_table, complexity) pairs."""

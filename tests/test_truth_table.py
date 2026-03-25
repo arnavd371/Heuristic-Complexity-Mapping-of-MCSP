@@ -100,7 +100,7 @@ class TestSpecialFunctions(unittest.TestCase):
 
     def test_majority(self):
         tt = TruthTable.majority(3)
-        expected = [1 if bin(i).count('1') > 1.5 else 0 for i in range(8)]
+        expected = [1 if bin(i).count('1') >= 2 else 0 for i in range(8)]
         self.assertEqual(tt.to_list(), expected)
 
     def test_threshold(self):

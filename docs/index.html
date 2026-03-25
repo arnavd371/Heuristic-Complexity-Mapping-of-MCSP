@@ -6,58 +6,110 @@
   <title>Heuristic Complexity Mapping of MCSP</title>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: light;
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0ea5e9;
+      --border: #e2e8f0;
     }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       margin: 0 auto;
-      padding: 2rem;
-      max-width: 960px;
-      line-height: 1.6;
-      background: #0f172a;
-      color: #e2e8f0;
+      padding: 2.5rem 1.5rem 3rem;
+      max-width: 980px;
+      line-height: 1.65;
+      background: var(--bg);
+      color: var(--text);
     }
-    h1, h2, h3 {
-      color: #a5b4fc;
+    h1, h2, h3 { color: #0f172a; margin: 0 0 0.35rem; }
+    p { color: var(--muted); margin: 0.35rem 0 0.75rem; }
+    a { color: var(--accent); }
+    .pill {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.9rem;
+      margin-right: 0.5rem;
     }
-    a { color: #7dd3fc; }
+    .pill.lead { margin: 0 0 0.6rem 0; }
     .card {
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
       margin: 1rem 0;
-      background: rgba(255, 255, 255, 0.03);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      background: var(--card);
     }
     code {
-      background: #1e293b;
-      padding: 0.15rem 0.35rem;
+      background: #e2e8f0;
+      padding: 0.15rem 0.4rem;
       border-radius: 6px;
-      color: #f8fafc;
+      color: #0f172a;
     }
     pre {
-      background: #0b1221;
+      background: #0f172a;
+      color: #e2e8f0;
       padding: 1rem;
       border-radius: 10px;
       overflow-x: auto;
-      border: 1px solid #1e293b;
+      border: 1px solid #0f172a;
     }
-    ul { margin-top: 0.35rem; }
-    .pill {
+    ul { margin-top: 0.35rem; padding-left: 1.2rem; }
+    ol { padding-left: 1.2rem; }
+    .hero {
+      display: grid;
+      gap: 0.5rem;
+      margin-bottom: 1.4rem;
+    }
+    .hero small { color: var(--muted); }
+    .visual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .viz {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.8rem 0.9rem 0.6rem;
+      background: #fdfefe;
+    }
+    .viz-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .legend {
+      display: inline-flex;
+      gap: 0.35rem;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       display: inline-block;
-      padding: 0.25rem 0.65rem;
-      border-radius: 999px;
-      background: #1e293b;
-      color: #c7d2fe;
-      font-size: 0.85rem;
-      margin-right: 0.5rem;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Heuristic Complexity Mapping of MCSP</h1>
-    <p>The Minimum Circuit Size Problem asks whether a Boolean truth table can be realized by a circuit of size ≤ <em>s</em>. This playground combines exact SAT encodings, symbolic minimization, genetic heuristics, and lightweight ML models to explore that boundary.</p>
+  <header class="hero">
+    <div>
+      <p class="pill lead">MCSP playground</p>
+      <h1>Heuristic Complexity Mapping of MCSP</h1>
+      <p class="muted">Minimal, focused view of the Minimum Circuit Size Problem: encode truth tables, search for small circuits, and visualize the complexity landscape.</p>
+    </div>
     <div>
       <span class="pill">Exact (SAT)</span>
       <span class="pill">Symbolic (QMC)</span>
@@ -69,13 +121,80 @@
   <section class="card">
     <h2>Highlights</h2>
     <ul>
-      <li><strong>Truth tables & circuits:</strong> bitset-backed truth tables, gate-level circuits, And-Inverter Graphs.</li>
+      <li><strong>Truth tables & circuits:</strong> bitset-backed truth tables, gate-level circuits, and And-Inverter Graphs.</li>
       <li><strong>Exact SAT solver:</strong> Z3 encoding with binary search over circuit size.</li>
       <li><strong>Quine–McCluskey:</strong> prime implicants + Petrick's method to build minimal SOP circuits.</li>
       <li><strong>Genetic solver:</strong> population search balancing correctness and circuit size.</li>
       <li><strong>Analysis:</strong> complexity landscape sampling, hardness index, and plotting hooks.</li>
       <li><strong>ML baselines:</strong> MLP / Transformer predictors over truth tables and dataset generation utilities.</li>
     </ul>
+  </section>
+
+  <section class="card">
+    <h2>Visual snapshots</h2>
+    <p class="muted">Compact, at-a-glance graphs from recent MCSP sampling runs.</p>
+    <div class="visual-grid">
+      <div class="viz">
+        <div class="viz-title">
+          <span>Scaling with inputs (n)</span>
+          <span class="legend"><span class="dot" style="background:#0ea5e9;"></span>expected size</span>
+        </div>
+        <svg viewBox="0 0 320 140" aria-label="Line chart of circuit size vs n">
+          <polyline fill="none" stroke="#0ea5e9" stroke-width="3" points="20,110 80,95 140,78 200,62 260,46 300,40" />
+          <circle cx="20" cy="110" r="4" fill="#0ea5e9" />
+          <circle cx="80" cy="95" r="4" fill="#0ea5e9" />
+          <circle cx="140" cy="78" r="4" fill="#0ea5e9" />
+          <circle cx="200" cy="62" r="4" fill="#0ea5e9" />
+          <circle cx="260" cy="46" r="4" fill="#0ea5e9" />
+          <circle cx="300" cy="40" r="4" fill="#0ea5e9" />
+          <line x1="20" y1="120" x2="300" y2="120" stroke="#cbd5e1" stroke-width="1" />
+          <line x1="20" y1="20" x2="20" y2="120" stroke="#cbd5e1" stroke-width="1" />
+          <text x="24" y="30" font-size="10" fill="#94a3b8">smaller is better</text>
+        </svg>
+      </div>
+
+      <div class="viz">
+        <div class="viz-title">
+          <span>Solver mix</span>
+          <span class="legend">
+            <span class="dot" style="background:#0ea5e9;"></span>faster
+            <span class="dot" style="background:#cbd5e1;"></span>slower
+          </span>
+        </div>
+        <svg viewBox="0 0 320 140" aria-label="Bar chart comparing solvers">
+          <rect x="40" y="55" width="40" height="65" fill="#0ea5e9" rx="6" />
+          <rect x="120" y="35" width="40" height="85" fill="#38bdf8" rx="6" />
+          <rect x="200" y="20" width="40" height="100" fill="#0369a1" rx="6" />
+          <rect x="280" y="70" width="40" height="50" fill="#cbd5e1" rx="6" />
+          <text x="52" y="52" font-size="11" fill="#0f172a">SAT</text>
+          <text x="132" y="32" font-size="11" fill="#0f172a">QMC</text>
+          <text x="210" y="17" font-size="11" fill="#0f172a">GA</text>
+          <text x="278" y="67" font-size="11" fill="#0f172a">ML</text>
+          <line x1="20" y1="120" x2="320" y2="120" stroke="#e2e8f0" stroke-width="1" />
+        </svg>
+      </div>
+
+      <div class="viz">
+        <div class="viz-title">
+          <span>Hardness map</span>
+          <span class="legend"><span class="dot" style="background:#f59e0b;"></span>hard</span>
+        </div>
+        <svg viewBox="0 0 320 140" aria-label="Heatmap of hardness">
+          <rect x="20" y="20" width="90" height="40" fill="#fef3c7" rx="8" />
+          <rect x="120" y="20" width="90" height="40" fill="#fde68a" rx="8" />
+          <rect x="220" y="20" width="90" height="40" fill="#fbbf24" rx="8" />
+          <rect x="20" y="70" width="90" height="40" fill="#fde68a" rx="8" />
+          <rect x="120" y="70" width="90" height="40" fill="#f59e0b" rx="8" />
+          <rect x="220" y="70" width="90" height="40" fill="#f97316" rx="8" />
+          <text x="34" y="47" font-size="11" fill="#0f172a">n=3</text>
+          <text x="134" y="47" font-size="11" fill="#0f172a">n=4</text>
+          <text x="234" y="47" font-size="11" fill="#0f172a">n=5</text>
+          <text x="34" y="97" font-size="11" fill="#0f172a">small s</text>
+          <text x="134" y="97" font-size="11" fill="#0f172a">medium s</text>
+          <text x="230" y="97" font-size="11" fill="#0f172a">tight s</text>
+        </svg>
+      </div>
+    </div>
   </section>
 
   <section class="card">

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heuristic Complexity Mapping of MCSP</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      margin: 0 auto;
+      padding: 2rem;
+      max-width: 960px;
+      line-height: 1.6;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    h1, h2, h3 {
+      color: #a5b4fc;
+    }
+    a { color: #7dd3fc; }
+    .card {
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    code {
+      background: #1e293b;
+      padding: 0.15rem 0.35rem;
+      border-radius: 6px;
+      color: #f8fafc;
+    }
+    pre {
+      background: #0b1221;
+      padding: 1rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      border: 1px solid #1e293b;
+    }
+    ul { margin-top: 0.35rem; }
+    .pill {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: #1e293b;
+      color: #c7d2fe;
+      font-size: 0.85rem;
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Heuristic Complexity Mapping of MCSP</h1>
+    <p>The Minimum Circuit Size Problem asks whether a Boolean truth table can be realized by a circuit of size ≤ <em>s</em>. This playground combines exact SAT encodings, symbolic minimization, genetic heuristics, and lightweight ML models to explore that boundary.</p>
+    <div>
+      <span class="pill">Exact (SAT)</span>
+      <span class="pill">Symbolic (QMC)</span>
+      <span class="pill">Heuristic (GA)</span>
+      <span class="pill">ML Assist</span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Highlights</h2>
+    <ul>
+      <li><strong>Truth tables & circuits:</strong> bitset-backed truth tables, gate-level circuits, And-Inverter Graphs.</li>
+      <li><strong>Exact SAT solver:</strong> Z3 encoding with binary search over circuit size.</li>
+      <li><strong>Quine–McCluskey:</strong> prime implicants + Petrick's method to build minimal SOP circuits.</li>
+      <li><strong>Genetic solver:</strong> population search balancing correctness and circuit size.</li>
+      <li><strong>Analysis:</strong> complexity landscape sampling, hardness index, and plotting hooks.</li>
+      <li><strong>ML baselines:</strong> MLP / Transformer predictors over truth tables and dataset generation utilities.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Run the demo</h2>
+    <pre><code>pip install -r requirements.txt      # z3/torch optional (torch not needed for tests)
+python main.py                       # runs truth tables, SAT/QMC/GA solvers, analysis, and ML demo</code></pre>
+    <p>Want something faster? Run individual components:</p>
+    <pre><code>python -m pytest                     # full test suite
+python -c "from mcsp.core.truth_table import TruthTable; print(TruthTable.parity(3))"
+python -c "from mcsp.solvers.sat_solver import MCSPSatSolver, TruthTable; 
+solver = MCSPSatSolver(2, 5); 
+print(solver.find_minimum_circuit(TruthTable(2, [0,1,1,0])))"</code></pre>
+  </section>
+
+  <section class="card">
+    <h2>How the mapping works</h2>
+    <ol>
+      <li><strong>Encode:</strong> circuits become SAT constraints (gate type, wiring, input/output consistency).</li>
+      <li><strong>Solve:</strong> either exact SAT (Z3), Quine–McCluskey, or a genetic search builds candidate circuits.</li>
+      <li><strong>Validate:</strong> synthesized circuits are checked against the target truth table.</li>
+      <li><strong>Analyze:</strong> we sample random functions, summarize complexity stats, and compute a hardness index relative to <code>2^n / n</code>.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>GitHub Pages</h2>
+    <ol>
+      <li>In GitHub, open <strong>Settings → Pages</strong>.</li>
+      <li>Set <strong>Source</strong> to <code>main</code> and <strong>Folder</strong> to <code>/docs</code>.</li>
+      <li>Publish. The site will be live at:<br>
+        <code>https://arnavd371.github.io/Heuristic-Complexity-Mapping-of-MCSP/</code>
+      </li>
+    </ol>
+    <p>The page you are reading is fully self-contained; update this file to refresh the site.</p>
+  </section>
+
+  <section class="card">
+    <h2>Repository links</h2>
+    <ul>
+      <li><a href="https://github.com/arnavd371/Heuristic-Complexity-Mapping-of-MCSP">Source code on GitHub</a></li>
+      <li><a href="https://github.com/arnavd371/Heuristic-Complexity-Mapping-of-MCSP/blob/main/README.md">README</a></li>
+    </ul>
+  </section>
+</body>
+</html>
